@@ -1,0 +1,468 @@
+/* Import Google Fonts - Using Montserrat for headings and Poppins for body texts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Basic Resets & Global Variables */
+:root {
+    --primary-gradient: linear-gradient(90deg, #A855F7 0%, #EC4899 100%); /* Purple to Pink */
+    --secondary-gradient: linear-gradient(90deg, #06B6D4 0%, #16A34A 100%); /* Cyan to Green */
+    --text-dark: #1F2937; /* Dark Gray */
+    --text-light: #F9FAFB; /* Off-white */
+    --bg-light: #F3F4F6; /* Light Gray Background */
+    --bg-dark: #111827; /* Dark Background */
+    --card-bg: #FFFFFF;
+    --border-radius-lg: 12px;
+    --border-radius-sm: 8px;
+    --transition-duration: 0.3s;
+    --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.08);
+    --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: var(--text-dark);
+    line-height: 1.6;
+    background-color: var(--bg-light);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Base Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--text-dark);
+    line-height: 1.2;
+    margin-bottom: 0.8em;
+}
+h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; }
+h2 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; margin-bottom: 1em;}
+h3 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; margin-bottom: 0.6em;}
+p { font-size: clamp(1rem, 2vw, 1.15rem); margin-bottom: 1em; }
+
+/* Utility Classes */
+.container {
+    max-width: 1280px; /* Slightly wider for the modern feel */
+    margin: 0 auto;
+    padding: 0 25px; /* More padding */
+}
+.text-center { text-align: center; }
+.text-gradient {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.btn {
+    display: inline-block;
+    padding: 14px 30px;
+    border-radius: var(--border-radius-sm);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all var(--transition-duration) ease;
+    border: none;
+    cursor: pointer;
+    font-size: 1.05rem;
+}
+.btn-primary {
+    background: var(--primary-gradient);
+    color: var(--text-light);
+    box-shadow: var(--shadow-light);
+}
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-medium);
+    opacity: 0.9; /* Slight darkening */
+}
+.btn-secondary {
+    background: var(--card-bg);
+    color: var(--text-dark);
+    border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: var(--shadow-light);
+}
+.btn-secondary:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-medium);
+    border-color: transparent; /* Remove border on hover for cleaner look */
+    color: var(--text-gradient); /* Keep original font color for contrast */
+}
+
+/* Header/Navbar */
+.header {
+    background: var(--card-bg);
+    padding: 20px 0;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo a {
+    font-size: 2.2em;
+    font-weight: 900;
+    text-decoration: none;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 40px; /* More spacing */
+}
+.nav-links a {
+    color: var(--text-dark);
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+    padding-bottom: 5px;
+    transition: color var(--transition-duration) ease;
+    font-size: 1.1rem;
+}
+.nav-links a::after { /* Underline effect from middle */
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 3px;
+    background: var(--secondary-gradient);
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: width var(--transition-duration) ease-out;
+    border-radius: 2px;
+}
+.nav-links a:hover {
+    color: #6B7280; /* Slight darken on hover */
+}
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* Hero Section - More dynamic */
+.hero {
+    background: linear-gradient(135deg, #F3F4F6 0%, #E5E7EB 100%); /* Subtle gradient background */
+    padding: 120px 0;
+    text-align: center;
+    color: var(--text-dark);
+    position: relative;
+    overflow: hidden; /* For any background shapes */
+    background-size: cover; /* Ensure background images cover the section */
+    background-position: center;
+}
+.hero::before, .hero::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px); /* Adjust blur for subtle effect */
+    opacity: 0.6;
+    z-index: 0;
+    pointer-events: none; /* Make sure they don't block clicks */
+}
+.hero::before {
+    width: 300px; height: 300px;
+    top: -50px; left: -50px;
+    background: rgba(168, 85, 247, 0.15); /* Primary gradient beginning color */
+}
+.hero::after {
+    width: 400px; height: 400px;
+    bottom: -100px; right: -100px;
+    background: rgba(236, 72, 153, 0.15); /* Primary gradient ending color */
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+}
+.hero h1 {
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.3em;
+    font-weight: 900;
+}
+.hero p {
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    max-width: 700px;
+    margin: 0 auto 2em;
+    color: #4B5563; /* Slightly darker text for readability */
+}
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap; /* For responsiveness */
+}
+
+/* Sections */
+.section {
+    padding: 100px 0; /* More vertical padding */
+}
+.section-heading { /* Centralized heading style */
+    margin-bottom: 50px;
+}
+.section-heading h2 {
+    font-size: clamp(2.2rem, 4vw, 3.8rem);
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+}
+.section-heading p {
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 1.15rem;
+    color: #4B5563;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px; /* More gap */
+    margin-top: 40px;
+}
+.card {
+    background: var(--card-bg);
+    padding: 35px;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-light);
+    transition: transform var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+    text-align: left;
+    border: 1px solid rgba(0,0,0,0.05); /* Subtle border */
+    overflow: hidden; /* For card specific shapes/gradients */
+    position: relative;
+}
+.card::before { /* Accent line on top */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: var(--secondary-gradient);
+    border-top-left-radius: var(--border-radius-lg);
+    border-top-right-radius: var(--border-radius-lg);
+}
+
+.card:hover {
+    transform: translateY(-7px);
+    box-shadow: var(--shadow-medium);
+    border-color: transparent; /* Make border disappear on hover */
+}
+.card h3 {
+    background: var(--primary-gradient); /* Card heading primary color */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 15px;
+    font-size: 1.7rem;
+}
+.card p {
+    font-size: 1.05rem;
+    color: #4B5563;
+}
+
+/* Call to Action Section - Modern styling */
+.cta-section {
+    background: var(--primary-gradient);
+    color: var(--text-light);
+    padding: 80px 0;
+    text-align: center;
+    border-radius: var(--border-radius-lg); /* Rounded container */
+    margin: 80px auto; /* Margin to separate from other sections */
+    max-width: 1100px;
+    box-shadow: var(--shadow-medium);
+}
+.cta-section h2 {
+    color: var(--text-light); /* Override heading color */
+    margin-bottom: 0.6em;
+}
+.cta-section p {
+    max-width: 800px;
+    margin: 0 auto 30px;
+    font-size: 1.2rem;
+    color: rgba(255,255,255,0.9);
+}
+.cta-section .btn-secondary { /* Override btn-secondary for dark background */
+    background: rgba(255,255,255,0.2);
+    color: var(--text-light);
+    border: 1px solid rgba(255,255,255,0.3);
+}
+.cta-section .btn-secondary:hover {
+    background: var(--card-bg);
+    color: var(--primary-gradient); /* Text gradient on hover */
+    border-color: var(--card-bg); /* Match background */
+}
+
+/* Footer with Quote - More integrated */
+.footer {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    padding: 60px 0;
+    text-align: center;
+}
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Auto-fit columns */
+    gap: 40px;
+    text-align: left; /* Align text within footer columns */
+    margin-bottom: 50px;
+}
+.footer-col h3 {
+    color: var(--text-light); /* White for headings */
+    font-size: 1.35rem; /* Larger heading */
+    margin-bottom: 25px;
+    font-weight: 700;
+}
+.footer-col ul {
+    list-style: none;
+}
+.footer-col ul li {
+    margin-bottom: 12px;
+}
+.footer-col ul li a {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    transition: color var(--transition-duration) ease;
+    font-size: 1.05rem;
+}
+.footer-col ul li a:hover {
+    color: var(--text-light);
+}
+.footer-col p, .footer-col address { /* For company description and address */
+    color: rgba(255,255,255,0.8);
+    font-size: 1.05rem;
+    line-height: 1.5;
+}
+.footer-col address p {
+    margin-bottom: 10px;
+}
+.footer-col address a {
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    transition: color var(--transition-duration) ease;
+}
+.footer-col address a:hover {
+    color: var(--text-light);
+}
+
+/* Specific styling for the main company info column */
+.footer-col-about .footer-logo {
+    font-size: 2.2em;
+    font-weight: 900;
+    text-decoration: none;
+    background: var(--secondary-gradient); /* Different gradient for footer logo */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 15px;
+    display: inline-block;
+}
+.footer-col-about p {
+    margin-bottom: 25px;
+}
+
+/* Daily Quote in Footer - Positioned below the grid */
+.footer-quote-container {
+    background: rgba(255,255,255,0.1);
+    border-radius: var(--border-radius-sm);
+    padding: 20px 30px;
+    margin: 40px auto; /* Centered and spaced */
+    max-width: 900px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255,255,255,0.05);
+    text-align: center; /* Center quote text */
+}
+.footer-quote {
+    font-style: italic;
+    font-size: 1.25em;
+    line-height: 1.4;
+    color: var(--text-light);
+    margin-bottom: 10px;
+}
+.footer-quote-author {
+    font-weight: 300;
+    font-size: 0.9em;
+    display: block;
+    color: rgba(255,255,255,0.7);
+}
+
+.copyright {
+    margin-top: 30px; /* More space above copyright */
+    font-size: 0.9em;
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+}
+
+/* Responsive Overrides */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start; /* Align logo to left */
+    }
+    .logo {
+        margin-bottom: 20px;
+    }
+    .nav-links {
+        width: 100%;
+        justify-content: flex-start; /* Align links to left */
+        gap: 25px;
+    }
+
+    .hero {
+        padding: 80px 0;
+    }
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    .btn {
+        width: 80%; /* Make buttons full width on small screens */
+        max-width: 300px;
+    }
+    .section {
+        padding: 60px 0;
+    }
+    .card-grid {
+        grid-template-columns: 1fr; /* Single column on mobile */
+    }
+    .cta-section {
+        margin: 60px 25px; /* Adjust margin for mobile */
+        padding: 60px 25px;
+    }
+    .footer-grid {
+        grid-template-columns: 1fr; /* Single column layout for footer on mobile */
+        text-align: center; /* Center-align footer content on mobile */
+    }
+    .footer-col h3 {
+        margin-bottom: 15px; /* Adjust spacing */
+    }
+    .footer-col ul li, .footer-col p{
+        margin-left: 0; /* Remove list item indentation if any */
+    }
+    .footer-col ul {
+        padding-bottom: 20px; /* Space between sections */
+    }
+    .footer-quote-container {
+        padding: 15px 20px; /* Adjust padding */
+        margin: 30px auto;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Further adjustments for very small screens if needed */
+}
