@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Function to get the current date as a simple integer (e.g., 20231027)
+
+    // --- Daily Quote Logic ---
     const getDailySeed = () => {
         const now = new Date();
         const year = now.getFullYear();
@@ -8,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return parseInt(`${year}${month}${day}`);
     };
 
-    // Simple pseudo-random number generator using the daily seed
     const seededRandom = (seed) => {
         let x = Math.sin(seed++) * 10000;
         return x - Math.floor(x);
@@ -53,8 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Run the quote fetcher
-    fetchQuote();
+    // Run the quote fetcher (only if elements are present on the page)
+    if (document.getElementById('dailyQuote') && document.getElementById('quoteAuthor')) {
+        fetchQuote();
+    }
+
 
     // Optional: Smooth scroll for internal links (nice touch for UX)
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -66,5 +69,97 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Add any other interactive JS here (e.g., Hamburger menu for mobile)
+    // --- Current Year Logic ---
+    const currentYearElement = document.getElementById('currentYear');
+    if (currentYearElement) {
+        currentYearElement.textContent = new Date().getFullYear();
+    }
+
+
+    // --- Contact Form Submission and Pop-up Logic ---
+    const contactForm = document.getElementById('contactForm');
+    const confirmationModal = document.getElementById('confirmationModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalMessage = document.getElementById('modalMessage');
+    const closeButtons = document.querySelectorAll('.close-button, .modal-close-btn');
+
+    // ONLY initialize form/modal listeners if the form elements actually exist on THIS page
+    if (contactForm && confirmationModal && modalTitle && modalMessage && closeButtons.length > 0) {
+
+        contactForm.addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent default form submission (page reload)
+
+            const formData = new FormData(contactForm);
+            
+            // ⭐⭐⭐ PASTE YOUR FORMSPREE ENDPOINT URL HERE ⭐⭐⭐
+            // Example: 'https://formspree.io/f/xqabjlzg'
+            const formspreeUrl = 'https://formspree.io/f/xqabjlzg'; // <-- Replace with YOUR Formspree URL
+
+            // Disable button and show loading state (optional)
+            const submitButton = contactForm.querySelector('.form-submit-btn');
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.textContent = 'Sending...';
+                // Add a loading spinner or animation if you have one
+            }
+
+            try {
+                const response = await fetch(formspreeUrl, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json' // Essential for Formspree's JSON response
+                    }
+                });
+
+                if (response.ok) { // Check if the response status is 2xx (e.g., 200 OK)
+                    modalTitle.textContent = "Message Sent Successfully!";
+                    modalMessage.textContent = "Thank you for reaching out. We will get back to you soon.";
+                    contactForm.reset(); // Clear the form fields
+                } else {
+                    // Try to get a more specific error message from Formspree's response
+                    const errorData = await response.json();
+                    const errorMessage = errorData.error || "An unexpected error occurred.";
+
+                    modalTitle.textContent = "Submission Failed!";
+                    modalMessage.textContent = `Oops! There was an error sending your message: ${errorMessage}. Please try again or contact us directly.`;
+                    console.error('Formspree error:', errorData);
+                }
+            } catch (error) {
+                // Handle network errors (e.g., no internet, CORS issues)
+                console.error('Network or JavaScript error during form submission:', error);
+                modalTitle.textContent = "Network Error!";
+                modalMessage.textContent = "Could not connect to the server. Please check your internet connection and try again.";
+            } finally {
+                // Re-enable button and reset text
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Send Message';
+                }
+                confirmationModal.style.display = 'flex'; // Show the modal
+            }
+        });
+
+        // Close modal functions
+        function closeModal() {
+            confirmationModal.style.display = 'none';
+        }
+
+        // Event listeners for closing the modal
+        closeButtons.forEach(button => {
+            button.addEventListener('click', closeModal);
+        });
+
+        // Close modal if user clicks outside of it
+        window.addEventListener('click', function(event) {
+            if (event.target === confirmationModal) {
+                closeModal();
+            }
+        });
+
+    } else {
+        // This warning will now only show if contact form/modal elements are genuinely missing
+        // on a page where this main.js is loaded, which is correct behavior.
+        // console.warn("Contact form or modal elements not found on this page. Pop-up functionality might not be active.");
+    }
 });

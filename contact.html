@@ -51,9 +51,7 @@
 
                     <div class="contact-form-block" style="background: var(--card-bg); padding: 35px; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-light); text-align: left;">
                         <h3>Send Us a Message</h3>
-                        <!-- THIS FORM REQUIRES A BACKEND OR A THIRD-PARTY SERVICE TO FUNCTION -->
-                        <!-- For GitHub Pages, use services like Formspree.io, Netlify Forms, or Web3Forms -->
-                        <form action="#" method="">
+                        <form id="contactForm">
                             <style> /* Inline styles for form elements for simplicity */
                                 .form-group { margin-bottom: 20px; }
                                 .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: #333; }
@@ -92,9 +90,9 @@
                                     box-shadow: var(--shadow-light);
                                 }
                                 .form-submit-btn:hover {
-                                     transform: translateY(-3px);
-                                     box-shadow: var(--shadow-medium);
-                                     opacity: 0.9;
+                                    transform: translateY(-3px);
+                                    box-shadow: var(--shadow-medium);
+                                    opacity: 0.9;
                                 }
                             </style>
                             <div class="form-group">
@@ -103,24 +101,24 @@
                             </div>
                             <div class="form-group">
                                 <label for="email">Your Email</label>
-                                <input type="email" id="email" name="email" required>
+                                <input type="email" id="email" name="_replyto" required>
                             </div>
                             <div class="form-group">
                                 <label for="message">Your Message</label>
                                 <textarea id="message" name="message" required></textarea>
                             </div>
+                            <input type="hidden" name="_subject" value="New Contact Form Submission from S.C Solutions Website">
                             <button type="submit" class="form-submit-btn">Send Message</button>
                         </form>
-                    </div>
+                        </div>
                 </div>
             </div>
         </section>
 
-        <!-- Google Maps Embed (Optional, for showcasing location) -->
         <section id="map-section" style="padding: 0; margin-top: 50px;">
             <div class="container">
                 <h2 class="text-center section-heading" style="margin-bottom: 25px;">Find Us on the <span class="text-gradient">Map.</span></h2>
-                 <div style="overflow:hidden; padding-bottom:56.25%; position:relative; height:0; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-light);">
+                   <div style="overflow:hidden; padding-bottom:56.25%; position:relative; height:0; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-light);">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1dYOUR_LATITUDE!2dYOUR_LONGITUDE!3dYOUR_ZOOM_LEVEL!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zYOUR_FIRM_NAME!5e0!3m2!1sen!2sus!4vYOUR_HASH" width="600" height="450" style="border:0; position:absolute; top:0; left:0; width:100%; height:100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
@@ -171,10 +169,18 @@
                 <span class="footer-quote-author" id="quoteAuthor"></span>
             </div>
 
-            <p class="copyright">&copy; <span id="currentYear"></span> S.C Solutions. All rights reserved.</p>
+            <p class="copyright">© <span id="currentYear"></span> S.C Solutions. All rights reserved.</p>
         </div>
     </footer>
 
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2 id="modalTitle"></h2>
+            <p id="modalMessage"></p>
+            <button class="modal-close-btn">Close</button>
+        </div>
+    </div>
     <script src="assets/js/main.js"></script>
     <script>
         document.getElementById('currentYear').textContent = new Date().getFullYear();
